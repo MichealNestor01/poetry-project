@@ -2,7 +2,19 @@ import { useReducer, useEffect } from "react";
 import sentences from "./assets/sentences.json";
 import "./App.css";
 
-function reducer(state, action) {
+interface State {
+  sentencesArray: string[];
+  1: string;
+  2: string;
+  3: string;
+}
+
+type Action = {
+  type: "swapSentence";
+  sentence: 1 | 2 | 3;
+};
+
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "swapSentence":
       const sentencesArray = [...state.sentencesArray];
@@ -37,9 +49,9 @@ function reducer(state, action) {
   }
 }
 
-const initialState = (() => {
+const initialState: State = (() => {
   const sentencesArray = [...sentences];
-  const randomSentences = [];
+  const randomSentences: string[] = [];
   while (randomSentences.length < 3) {
     const randomIndex = Math.floor(Math.random() * sentencesArray.length);
     const randomSentence = sentencesArray[randomIndex];
@@ -54,7 +66,7 @@ const initialState = (() => {
   };
 })();
 
-function App() {
+function App(): JSX.Element {
   // setup state
   const [state, dispatch] = useReducer(reducer, initialState);
 
