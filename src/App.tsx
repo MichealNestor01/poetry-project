@@ -5,33 +5,55 @@ import "./App.css";
 // Define the shape of the state object
 interface AppState {
   sentencesArray: string[];
-  1: string;
-  2: string;
-  3: string;
+  displayedSentences: {
+    [key: string]: string;
+  };
 }
 
 // Define the possible actions that can be dispatched to the reducer
-type AppAction = { type: "swapSentence"; sentenceIndex: 1 | 2 | 3 };
+type AppAction = { type: "swapSentence"; sentenceIndex: string };
+
+// Utility function to get a random index from an array
+function getRandomIndex(arrayLength: number): number {
+  return Math.floor(Math.random() * arrayLength);
+}
+
+// Utility function to initialize the state
+function initializeState(sentences: string[]): AppState {
+  const sentencesArray = [...sentences];
+  const randomSentences: { [key: string]: string } = {};
+  const numOfSentences = 3;
+
+  for (let i = 1; i <= numOfSentences; i++) {
+    const randomIndex = getRandomIndex(sentencesArray.length);
+    randomSentences[i] = sentencesArray[randomIndex];
+    sentencesArray.splice(randomIndex, 1);
+  }
+
+  return {
+    sentencesArray,
+    displayedSentences: randomSentences,
+  };
+}
 
 // Define the reducer function, which updates the state in response to dispatched actions
 function reducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case "swapSentence":
-      // Create a new array containing the current state's sentences
       const sentencesArray = [...state.sentencesArray];
-      // Pick a random index from the array
-      const index = Math.floor(Math.random() * sentencesArray.length);
-      // Get the new sentence to be displayed
+      const index = getRandomIndex(sentencesArray.length);
       const newSentence = sentencesArray[index];
-      // Remove the selected sentence from the array
+
       sentencesArray.splice(index, 1);
-      // Add the currently displayed sentence back to the end of the array
-      sentencesArray.push(state[action.sentenceIndex]);
-      // Update the state with the new sentence and shuffled array
+      sentencesArray.push(state.displayedSentences[action.sentenceIndex]);
+
       return {
         ...state,
         sentencesArray,
-        [action.sentenceIndex]: newSentence,
+        displayedSentences: {
+          ...state.displayedSentences,
+          [action.sentenceIndex]: newSentence,
+        },
       };
     default:
       return state;
@@ -39,44 +61,24 @@ function reducer(state: AppState, action: AppAction): AppState {
 }
 
 // Define the initial state of the app
-const initialState: AppState = (() => {
-  // Create a new array containing all the sentences
-  const sentencesArray = [...sentences];
-  // Pick three random sentences to display initially
-  const randomSentences = [];
-  while (randomSentences.length < 3) {
-    const randomIndex = Math.floor(Math.random() * sentencesArray.length);
-    const randomSentence = sentencesArray[randomIndex];
-    randomSentences.push(randomSentence);
-    sentencesArray.splice(randomIndex, 1);
-  }
-  // Return the initial state object
-  return {
-    sentencesArray,
-    1: randomSentences[0],
-    2: randomSentences[1],
-    3: randomSentences[2],
-  };
-})();
+const initialState: AppState = initializeState(sentences);
 
 // Define the App component
 function App(): JSX.Element {
-  // Setup state using the useReducer hook
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  // Render the app UI
+  const handleClick = (sentenceIndex: string) => {
+    dispatch({ type: "swapSentence", sentenceIndex });
+  };
+
   return (
     <section className="pageWrapper">
       <h1>Sentences</h1>
-      <h3 className="sentence" onClick={() => dispatch({ type: "swapSentence", sentenceIndex: 1 })}>
-        {state[1]}
-      </h3>
-      <h3 className="sentence" onClick={() => dispatch({ type: "swapSentence", sentenceIndex: 2 })}>
-        {state[2]}
-      </h3>
-      <h3 className="sentence" onClick={() => dispatch({ type: "swapSentence", sentenceIndex: 3 })}>
-        {state[3]}
-      </h3>
+      {Object.keys(state.displayedSentences).map((key) => (
+        <h3 key={key} className="sentence" onClick={() => handleClick(key)}>
+          {state.displayedSentences[key]}
+        </h3>
+      ))}
     </section>
   );
 }
