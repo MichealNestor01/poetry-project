@@ -1,6 +1,7 @@
 import { useReducer, useEffect } from "react";
 import sentences from "./assets/sentences.json";
-import "./App.css";
+//import "./App.css";
+import styles from "./App.module.css";
 
 // Define the shape of the state object
 interface AppState {
@@ -72,13 +73,19 @@ function App(): JSX.Element {
   };
 
   return (
-    <section className="pageWrapper">
-      <h1>Sentences</h1>
-      {Object.keys(state.displayedSentences).map((key) => (
-        <h3 key={key} className="sentence" onClick={() => handleClick(key)}>
-          {state.displayedSentences[key]}
-        </h3>
-      ))}
+    <section className={styles.pageWrapper}>
+      <h1 className={styles.title}>Poetry</h1>
+      <div className={styles.sentencesContainer}>
+        {Object.keys(state.displayedSentences).map((key) => (
+          <h3
+            key={key}
+            className={`${styles.sentence} ${styles["sentence-" + key]}`}
+            onClick={() => handleClick(key)}
+          >
+            {state.displayedSentences[key]}
+          </h3>
+        ))}
+      </div>
     </section>
   );
 }

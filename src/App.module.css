@@ -1,0 +1,51 @@
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #222;
+}
+
+.sentencesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 800px;
+}
+
+.sentence {
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.sentence:hover {
+  transform: scale(1.05);
+}
+
+.sentence-1 {
+  background-color: #ffcdd2;
+}
+
+.sentence-2 {
+  background-color: #c5cae9;
+}
+
+.sentence-3 {
+  background-color: #b2dfdb;
+}
