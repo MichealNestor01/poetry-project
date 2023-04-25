@@ -11,8 +11,10 @@ interface AppState {
   };
 }
 
+const NUMOFSENTENCES = 3;
+
 // Define the possible actions that can be dispatched to the reducer
-type AppAction = { type: "swapSentence"; sentenceIndex: string };
+type AppAction = { type: string; sentenceIndex?: string };
 
 // Utility function to get a random index from an array
 function getRandomIndex(arrayLength: number): number {
@@ -23,9 +25,8 @@ function getRandomIndex(arrayLength: number): number {
 function initializeState(sentences: string[]): AppState {
   const sentencesArray = [...sentences];
   const randomSentences: { [key: string]: string } = {};
-  const numOfSentences = 3;
 
-  for (let i = 1; i <= numOfSentences; i++) {
+  for (let i = 1; i <= NUMOFSENTENCES; i++) {
     const randomIndex = getRandomIndex(sentencesArray.length);
     randomSentences[i] = sentencesArray[randomIndex];
     sentencesArray.splice(randomIndex, 1);
@@ -41,21 +42,40 @@ function initializeState(sentences: string[]): AppState {
 function reducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case "swapSentence":
+      if (action.sentenceIndex !== undefined) {
+        const sentencesArray = [...state.sentencesArray];
+        const index = getRandomIndex(sentencesArray.length);
+        const newSentence = sentencesArray[index];
+
+        sentencesArray.splice(index, 1);
+        sentencesArray.push(state.displayedSentences[action.sentenceIndex]);
+
+        return {
+          ...state,
+          sentencesArray,
+          displayedSentences: {
+            ...state.displayedSentences,
+            [action.sentenceIndex]: newSentence,
+          },
+        };
+      }
+    case "swapAllSentences":
       const sentencesArray = [...state.sentencesArray];
-      const index = getRandomIndex(sentencesArray.length);
-      const newSentence = sentencesArray[index];
-
-      sentencesArray.splice(index, 1);
-      sentencesArray.push(state.displayedSentences[action.sentenceIndex]);
-
+      Object.keys(state.displayedSentences).forEach((key: string) => {
+        sentencesArray.push(state.displayedSentences[key]);
+      });
+      const displayedSentences: { [key: string]: string } = {};
+      for (let i = 1; i <= NUMOFSENTENCES; i++) {
+        const index = getRandomIndex(sentencesArray.length);
+        displayedSentences[i] = sentencesArray[index];
+        sentencesArray.splice(index, 1);
+      }
       return {
         ...state,
         sentencesArray,
-        displayedSentences: {
-          ...state.displayedSentences,
-          [action.sentenceIndex]: newSentence,
-        },
+        displayedSentences,
       };
+
     default:
       return state;
   }
@@ -85,6 +105,9 @@ function App(): JSX.Element {
             {state.displayedSentences[key]}
           </h3>
         ))}
+      </div>
+      <div className={styles.button} onClick={() => dispatch({ type: "swapAllSentences" })}>
+        Generate
       </div>
     </section>
   );
