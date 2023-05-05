@@ -1,7 +1,8 @@
-import { useReducer, useEffect } from "react";
+import { useReducer } from "react";
 import sentences from "./assets/sentences.json";
 //import "./App.css";
 import styles from "./App.module.css";
+import MemorialForm from "./MemorialForm";
 
 // Define the shape of the state object
 interface AppState {
@@ -94,6 +95,7 @@ function App(): JSX.Element {
 
   return (
     <section className={styles.pageWrapper}>
+      <MemorialForm />
       <h1 className={styles.title}>Poetry</h1>
       <div className={styles.sentencesContainer}>
         {Object.keys(state.displayedSentences).map((key) => (
