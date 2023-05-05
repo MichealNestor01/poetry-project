@@ -1,8 +1,8 @@
-import { useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import sentences from "./assets/sentences.json";
+import about from "./assets/about.json";
 //import "./App.css";
 import styles from "./App.module.css";
-import MemorialForm from "./MemorialForm";
 
 // Define the shape of the state object
 interface AppState {
@@ -12,7 +12,7 @@ interface AppState {
   };
 }
 
-const NUMOFSENTENCES = 3;
+const NUMOFSENTENCES = 4;
 
 // Define the possible actions that can be dispatched to the reducer
 type AppAction = { type: string; sentenceIndex?: string };
@@ -87,6 +87,7 @@ const initialState: AppState = initializeState(sentences);
 
 // Define the App component
 function App(): JSX.Element {
+  const [showAbout, setShowAbout] = useState<boolean>(false);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleClick = (sentenceIndex: string) => {
@@ -95,22 +96,50 @@ function App(): JSX.Element {
 
   return (
     <section className={styles.pageWrapper}>
-      <MemorialForm />
-      <h1 className={styles.title}>Poetry</h1>
-      <div className={styles.sentencesContainer}>
-        {Object.keys(state.displayedSentences).map((key) => (
-          <h3
-            key={key}
-            className={`${styles.sentence} ${styles["sentence-" + key]}`}
-            onClick={() => handleClick(key)}
-          >
-            {state.displayedSentences[key]}
-          </h3>
-        ))}
+      <div className={styles.linkWrapper}>
+        <a
+          className={styles.link}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowAbout(false);
+          }}
+        >
+          Alter
+        </a>
+        <a
+          className={styles.link}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowAbout(true);
+          }}
+        >
+          About
+        </a>
       </div>
-      <div className={styles.button} onClick={() => dispatch({ type: "swapAllSentences" })}>
-        Generate
-      </div>
+      {showAbout ? (
+        <div className={styles.aboutContainer}>
+          <div>{about.about}</div>
+          <div className={styles.cursive}>"{about.quote}"</div>
+        </div>
+      ) : (
+        <>
+          <h1 className={styles.title}>Alter Altar</h1>
+          <div className={styles.sentencesContainer}>
+            {Object.keys(state.displayedSentences).map((key) => (
+              <h3
+                key={key}
+                className={`${styles.sentence} ${styles["sentence-" + key]}`}
+                onClick={() => handleClick(key)}
+              >
+                {state.displayedSentences[key]}
+              </h3>
+            ))}
+          </div>
+          <div className={styles.button} onClick={() => dispatch({ type: "swapAllSentences" })}>
+            Generate Memory Word
+          </div>
+        </>
+      )}
     </section>
   );
 }
