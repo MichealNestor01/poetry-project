@@ -104,7 +104,7 @@ function App(): JSX.Element {
             setShowAbout(false);
           }}
         >
-          Alter
+          Home
         </a>
         <a
           className={styles.link}
