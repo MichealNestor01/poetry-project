@@ -118,7 +118,7 @@ function App(): JSX.Element {
       </div>
       {showAbout ? (
         <div className={styles.aboutContainer}>
-          <div>{about.about}</div>
+          <div className={styles.about}>{about.about}</div>
           <div className={styles.cursive}>"{about.quote}"</div>
         </div>
       ) : (

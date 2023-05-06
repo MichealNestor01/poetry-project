@@ -101,8 +101,18 @@
 
   font-size: 25px;
 }
+.about {
+  background-color: #95959565;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 5px;
+}
 .cursive {
+  background-color: rgba(65, 105, 225, 0.529);
+  text-align: center;
+  border-radius: 10px;
   margin-top: 40px;
   font-size: 30px;
   font-family: "Apple Chancery", cursive;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
