@@ -50,6 +50,16 @@
   transition: transform 0.3s ease;
 }
 
+@media only screen and (max-width: 700px) {
+  .sentence {
+    font-size: 1rem;
+  }
+  .button {
+    font-size: 1rem;
+    width: 200px;
+  }
+}
+
 .button:hover,
 .sentence:hover {
   transform: scale(1.05);
@@ -98,8 +108,7 @@
   transform: translatey(-50%);
   width: 70%;
   text-align: justify;
-
-  font-size: 25px;
+  font-size: 1.8rem;
 }
 .about {
   background-color: #95959565;
@@ -112,7 +121,20 @@
   text-align: center;
   border-radius: 10px;
   margin-top: 40px;
-  font-size: 30px;
+  font-size: 1.8rem;
   font-family: "Apple Chancery", cursive;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+@media only screen and (max-width: 700px) {
+  .aboutContainer {
+    top: 50vh;
+    font-size: 0.85rem;
+    width: 98%;
+  }
+  .cursive {
+    font-size: 1.5rem;
+  }
+  .linkWrapper {
+    width: 150px;
+  }
 }
