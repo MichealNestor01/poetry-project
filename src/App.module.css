@@ -1,10 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Finlandica&display=swap");
+
 .pageWrapper {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: "Apple Chancery";
+  font-family: "Finlandica", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .title {
@@ -18,13 +21,14 @@
   margin-top: 60px;
   display: flex;
   flex-direction: column;
-  background-color: rgba(65, 105, 225, 0.529);
+  background-color: #0097fe;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  border-radius: 30px 5px 30px 30px;
   padding: 10px;
 }
 
 .sentence {
+  color: rgb(255, 255, 255);
   text-align: center;
   font-size: 1.5rem;
   cursor: pointer;
@@ -68,19 +72,6 @@
 .sentence:active {
   transform: scale(0.95);
 }
-/*
-.sentence-1 {
-  background-color: #ffcdd2;
-}
-
-.sentence-2 {
-  background-color: #c5cae9;
-}
-
-.sentence-3 {
-  background-color: #b2dfdb;
-}
-*/
 
 .linkWrapper {
   position: absolute;
@@ -117,12 +108,15 @@
   padding: 5px;
 }
 .cursive {
-  background-color: rgba(65, 105, 225, 0.529);
+  float: right;
+  width: 80%;
+  background-color: #0097fe;
   text-align: center;
   border-radius: 10px;
   margin-top: 40px;
   font-size: 1.8rem;
-  font-family: "Apple Chancery", cursive;
+  border-radius: 30px 5px 30px 30px;
+  color: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 @media only screen and (max-width: 700px) {
